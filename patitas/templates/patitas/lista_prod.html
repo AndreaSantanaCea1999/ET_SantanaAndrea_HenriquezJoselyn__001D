@@ -1,0 +1,86 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--FONTS-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap" rel="stylesheet">
+    <!--CSS-->
+    <link type='text/css' href='{% static "css/style.css" %}' rel='stylesheet'/>
+    <title>Lista de productos</title>
+</head>
+<body>
+
+    <div class="logo-pat-prod">
+        <a href="{% url 'index' %}" class="logo_patitas_princ"><img src="{% static 'img/logo_patitas.png' %}" alt="patitas"></a>
+    </div>
+
+    <div class="titulos-pag">
+        <h1>Editar Datos de Productos</h1>
+    </div>
+
+    <button type="button" class="btn-agregar">
+        <a href="{% url 'productosAdd' %}">Agregar</a>
+    </button>
+
+    <div id="idMensajes">
+        {% if mensaje %}
+            {{ mensaje }}
+        {% endif %}
+    </div>
+
+    <table class="productos-tabla">
+        {% if productos %}
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+             
+                <th>Stock</th>
+                <th>Imagen</th>
+                <th>Eliminar</th>
+                <th>Modificar</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>{{ producto.nombre_prod }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                    <td>{{ producto.precio }}</td>
+                    <td>{{ producto.stock }}</td>
+                
+                    
+            </td>
+                    <td>
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_prod }}" class="product-image">
+                        {% else %}
+                            <p>No hay imagen disponible</p>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'productos_del' pk=producto.id %}" class="btn-eliminar">Eliminar</a></td>
+                    <td><a href="{% url 'productos_findEdit' pk=producto.id %}" class="btn-modificar">Modificar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#idMensajes").delay(2000).fadeOut("slow");
+        });
+    </script>
+</body>
+</html>
+ 
